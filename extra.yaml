@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newapp
+  namespace: testing  # Specify the namespace here
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newapp
+  template:
+    metadata:
+      labels:
+        app: newapp
+    spec:
+      containers:
+      - name: newapp
+        image: aneei/newapp
+        ports:
+        - containerPort: 3000
+
+
+
+
+static_configs:
+      - targets:
+        - '10.100.202.157:80'  # Manually specifying the service's ClusterIP and port
+        - 'a6efc7c393bec41ef82795c8d318ce88-602869980.us-east-1.elb.amazonaws.com:80'  # External LoadBalancer

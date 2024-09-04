@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: testing
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval:     15s
+      evaluation_interval: 15s
+
+    scrape_configs:
+    - job_name: 'kubernetes-nodes'
+      scrape_interval: 5m
+      static_configs:
+      - targets: 
+        - '10.100.157.103:9100'
+        - 'a61b132c82c994325bad95658de1b71a-1883676537.us-east-1.elb.amazonaws.com:9100'
+
+    - job_name: 'newapp'
+      static_configs:
+      - targets:
+        - 'a6efc7c393bec41ef82795c8d318ce88-602869980.us-east-1.elb.amazonaws.com'  
+      metrics_path: /metrics
+
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+      - role: pod
+
+
+    - job_name: 'kubernetes-service-endpoints'
+      kubernetes_sd_configs:
+      - role: endpoints
+
+
+    - job_name: 'node-exporter'
+      scrape_interval: 5m
+      static_configs:
+      - targets: 
+        - '10.100.157.103:9100'
+        - 'a61b132c82c994325bad95658de1b71a-1883676537.us-east-1.elb.amazonaws.com:9100'
+    
+
+    remote_write:
+    - url: https://metric-api.newrelic.com/prometheus/v1/write?prometheus_server=EKS-Prometheus-data
+    authorization:
+      credentials: d9b2a39e2554507577474356cae9439fFFFFNRAL
+    

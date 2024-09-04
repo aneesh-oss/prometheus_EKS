@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-exporter
+  namespace: testing
+spec:
+  type: LoadBalancer
+  selector:
+    app: node-exporter
+  ports:
+    - name: node-exporter
+      port: 9100        # Port on which Node Exporter is listening
+      targetPort: 9100  # Port on the container where Node Exporter is running

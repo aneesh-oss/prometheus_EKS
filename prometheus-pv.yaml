@@ -1,0 +1,55 @@
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: prometheus-pv
+# spec:
+#   capacity:
+#     storage: 5Gi
+#   volumeMode: Filesystem
+#   accessModes:
+#     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: gp2
+#   csi:
+#     driver: ebs.csi.aws.com
+  #   volumeHandle: vol-0380e2771211a4efc
+  # # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #           - key: topology.ebs.csi.aws.com/zone
+  #             operator: In
+  #             values:
+  #               - us-east-2b  # Replace with your Availability Zone
+
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-pv
+spec:
+  capacity:
+    storage: 5Gi  # Adjusted the size to 4Gi
+  accessModes:
+    - ReadWriteOnce  # Access mode remains the same
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: gp2  # This should match the storage class in your PVC
+  hostPath:
+    path: /mnt/data/prometheus  # Path to store data on the host
+
+
+# apiVersion: v1
+# vol-0380e2771211a4efc
+# kind: PersistentVolume
+# metadata:
+#   name: prometheus-pv
+# spec:
+#   capacity:
+#     storage: Gi  # Adjust the size as needed
+#   accessModes:
+#     - ReadWriteOnce  # Adjust based on your PVC requirements
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: gp2  # This should match the storage class in your PVC
+#   hostPath:
+#     path: /mnt/data/prometheus  # Adjust this path to where you want to store the data on the host

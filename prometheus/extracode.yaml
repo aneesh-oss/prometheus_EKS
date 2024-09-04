@@ -1,0 +1,23 @@
+    # - job_name: 'kubernetes-apiservers'
+    #   kubernetes_sd_configs:
+    #   - role: endpoints
+    #     api_server: <kubernetes-apiserver-address>
+
+    - job_name: 'kubernetes-service-endpoints'
+      kubernetes_sd_configs:
+      - role: endpoints
+
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+      - role: pod
+    
+    - job_name: 'node-exporter'
+      scrape_interval: 5m
+      static_configs:
+      - targets: ['http://adeec1a12d4744094bf9369d066d0419-1489561141.us-east-1.elb.amazonaws.com:9100']
+
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - alertmanager:9093

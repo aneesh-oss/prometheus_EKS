@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newapp
+  namespace: testing  # Specify the namespace here
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newapp
+  template:
+    metadata:
+      labels:
+        app: newapp
+      annotations:
+        prometheus.io/scrape: "true"  # Enable scraping
+        prometheus.io/port: "3000"     # The port where metrics are exposed
+        prometheus.io/path: "/metrics"  # The metrics path (modify if necessary)
+    spec:
+      containers:
+      - name: newapp
+        image: aneei/newapp
+        ports:
+        - containerPort: 3000
